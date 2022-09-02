@@ -1,9 +1,8 @@
 import React from "react";
 
-function Item({ item, changeInCart }) {
+function Item({ item, changeInCart, deleteItem }) {
   
 function addToCart() {
-
   const config = {
     method: 'PATCH',
     headers: {
@@ -15,7 +14,18 @@ function addToCart() {
     .then(res => res.json())
     .then(updatedItem => changeInCart(updatedItem));
 }
-  
+
+function clickDelete() {
+  fetch(`http://localhost:4000/items/${item.id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json"
+    }
+  })
+    .then(res => res.json())
+    .then(emptyObj => deleteItem(item));
+}
+
   return (
     <li className={item.isInCart ? "in-cart" : ""}>
       <span>{item.name}</span>
@@ -23,7 +33,7 @@ function addToCart() {
       <button className={item.isInCart ? "remove" : "add"} onClick={addToCart}>
         {item.isInCart ? "Remove From" : "Add to"} Cart
       </button>
-      <button className="remove">Delete</button>
+      <button className="remove" onClick={clickDelete}>Delete</button>
     </li>
   );
 }

@@ -30,6 +30,12 @@ function ShoppingList() {
     }));
   }
 
+  function deleteItem(itemObj) {
+    setItems(items => items.filter(item => {
+      return item.name !== itemObj.name;
+    }))
+  }
+
   const itemsToDisplay = items.filter((item) => {
     if (selectedCategory === "All") return true;
 
@@ -45,7 +51,12 @@ function ShoppingList() {
       />
       <ul className="Items">
         {itemsToDisplay.map((item) => (
-          <Item key={item.id} item={item} changeInCart={changeInCart}/>
+          <Item 
+            key={item.id} 
+            item={item} 
+            changeInCart={changeInCart} 
+            deleteItem={deleteItem}
+          />
         ))}
       </ul>
     </div>
